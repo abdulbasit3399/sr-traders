@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Manage Invoices') }}
+    {{ __('Manage Invoice Returns') }}
 @endsection
 
 @section('breadcrumb')
@@ -9,7 +9,7 @@
     @else
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
     @endif
-    <li class="breadcrumb-item">{{__('Invoice')}}</li>
+    <li class="breadcrumb-item">{{__('Invoice Return')}}</li>
 @endsection
 
 @section('action-btn')
@@ -23,7 +23,7 @@
         </a>
 
         @can('create invoice')
-            <a href="{{ route('invoice.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{__('Create')}}">
+            <a href="{{ route('InvoiceReturn.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{__('Create')}}">
                 <i class="ti ti-plus"></i>
             </a>
         @endcan
@@ -34,7 +34,7 @@
 
 @section('content')
 
-    <div class="row">
+    {{--  <div class="row">
         <div class="col-sm-12">
             <div class=" multi-collapse mt-2 " id="multiCollapseExample1">
                 <div class="card">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  --}}
 
     <div class="row">
         <div class="col-md-12">

@@ -183,6 +183,7 @@ class InvoiceController extends Controller
 
     public function returnstore(Request $request)
     {
+
         if (\Auth::user()->can('create invoice')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -220,6 +221,11 @@ class InvoiceController extends Controller
             CustomField::saveData($invoice, $request->customField);
             $products = $request->items;
 
+            // dd($invoice);
+            $customer = Customer::find($request->customer_id);
+            // dump();
+
+            $total = 0;
             for ($i = 0; $i < count($products); $i++) {
                 $invoiceProduct              = new InvoiceReturnProduct();
                 $invoiceProduct->invoice_id  = $invoice->id;
@@ -234,8 +240,8 @@ class InvoiceController extends Controller
                 $invoiceProduct->save();
                 Utility::total_quantity('plus',$invoiceProduct->quantity,$invoiceProduct->product_id);
 
-                $customer = Customer::find($request->customer_id);
-                Utility::userBalance('customer', $customer->id, $invoice->getTotal(), 'debit');
+                $total += ($products[$i]['quantity'] * $products[$i]['price']);
+
 
                 //Product Stock Report
                 $type='invoice';
@@ -245,8 +251,7 @@ class InvoiceController extends Controller
                 $ut->addProductStock( $products[$i]['item'],$invoiceProduct->quantity,$type,$description,$type_id);
 
             }
-
-
+            Utility::userBalance('customer', $customer->id, $total, 'debit');
 
             //Twilio Notification
             $setting  = Utility::settings(\Auth::user()->creatorId());
