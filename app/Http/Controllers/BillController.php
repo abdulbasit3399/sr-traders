@@ -129,9 +129,9 @@ class BillController extends Controller
 
                 return redirect()->back()->with('error', $messages->first());
             }
-            $bill            = new Bill();
-            $bill->bill_id   = $this->billNumber();
-            $bill->vender_id = $request->vender_id;;
+            $bill                 = new Bill();
+            $bill->bill_id        = $this->billNumber();
+            $bill->vender_id      = $request->vender_id;
             $bill->bill_date      = $request->bill_date;
             $bill->status         = 0;
             $bill->due_date       = $request->due_date;
@@ -163,7 +163,9 @@ class BillController extends Controller
                 $type='bill';
                 $type_id = $bill->id;
                 $description=$products[$i]['quantity'].'  '.__(' quantity purchase in bill').' '. \Auth::user()->billNumberFormat($bill->bill_id);
-                Utility::addProductStock( $products[$i]['item'],$products[$i]['quantity'],$type,$description,$type_id);
+
+                $ut = new Utility();
+                $ut->addProductStock( $products[$i]['item'],$products[$i]['quantity'],$type,$description,$type_id);
 
             }
 
