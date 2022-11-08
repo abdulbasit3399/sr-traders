@@ -85,7 +85,7 @@
                     </form>
                     <?php endif; ?>
 
-                    
+
 
                 </div>
         </li>
@@ -93,10 +93,7 @@
         <?php if( Gate::check('create product & service') ||  Gate::check('create customer') ||  Gate::check('create vender')||  Gate::check('create proposal')||  Gate::check('create invoice')||  Gate::check('create bill') ||  Gate::check('create goal') ||  Gate::check('create bank account')): ?>
             <li class="dropdown dash-h-item ml-2">
                     <div class="dropdown notification-icon">
-                        <a class="dash-head-link dropdown-toggle arrow-none ms-0" data-bs-toggle="dropdown"
-                             href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="ti ti-plus "></i>
-                            </a>
+                        
                         <div class="dropdown-menu" aria-labelledby="dropdownBookmark">
                                 <?php if(Gate::check('create product & service')): ?>
                                     <a class="dropdown-item" href="#" data-url="<?php echo e(route('productservice.create')); ?>" data-ajax-popup="true"  data-size="lg" data-title="<?php echo e(__('Create New Product')); ?>"><i class="ti ti-shopping-cart"></i><?php echo e(__('Create New Product')); ?></a>
