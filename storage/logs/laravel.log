@@ -7019,3 +7019,187 @@
 [stacktrace]
 #0 {main}
 "} 
+[2022-11-17 09:36:33] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:36:58] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:37:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:38:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:39:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:40:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:41:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:42:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-17 09:43:55] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:28:12] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:28:29] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:29:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:30:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:31:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:32:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:33:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:34:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:35:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:36:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:37:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:38:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:39:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:40:31] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:41:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:42:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:43:31] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:44:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:45:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:46:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:47:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:48:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:49:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:50:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:51:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:52:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:53:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:54:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:55:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:56:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:57:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:58:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 12:59:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 13:00:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 13:01:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 13:02:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 
+[2022-11-23 13:03:30] local.ERROR: Cannot declare class App\Models\InvoiceProduct, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\InvoiceProduct, because the name is already in use at C:\\laragon\\www\\sr-traders\\app\\Models\\InvoiceReturnProduct1.php:9)
+[stacktrace]
+#0 {main}
+"} 

@@ -27,7 +27,7 @@
 
 <!-- Warning Section Ends -->
 <!-- Required Js -->
-<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery1.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>

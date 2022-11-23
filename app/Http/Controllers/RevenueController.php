@@ -32,14 +32,14 @@ class RevenueController extends Controller
 
             $query = Revenue::where('created_by', '=', \Auth::user()->creatorId());
 
-            if (str_contains($request->date, ' to ')) { 
+            if (str_contains($request->date, ' to ')) {
                 $date_range = explode(' to ', $request->date);
                 $query->whereBetween('date', $date_range);
             }elseif(!empty($request->date)){
-               
+
                 $query->where('date', $request->date);
             }
-            
+
             // if(!empty($request->date))
             // {
             //     $date_range = explode(' to ', $request->date);
@@ -128,7 +128,7 @@ class RevenueController extends Controller
                 $fileName = time() . "_" . $request->add_receipt->getClientOriginalName();
                 // $request->add_receipt->storeAs('uploads/revenue', $fileName);
                 $revenue->add_receipt = $fileName;
-                
+
 
 
                 $dir        = 'uploads/revenue';
@@ -162,7 +162,7 @@ class RevenueController extends Controller
 
             if(!empty($customer))
             {
-                Utility::userBalance('customer', $customer->id, $revenue->amount, 'credit');
+                Utility::userBalance('customer', $customer->id, $revenue->amount, 'debit');
             }
 
             Utility::bankAccountBalance($request->account_id, $revenue->amount, 'credit');
@@ -179,7 +179,7 @@ class RevenueController extends Controller
             {
                 $resp = Utility::sendEmailTemplate('invoice_payment_create', [$customer->id => $customer->email], $uArr);
             }
-            
+
             catch(\Exception $e)
             {
                 $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
@@ -268,11 +268,11 @@ class RevenueController extends Controller
                         \File::delete($path);
                     }
                 }
-                
+
                 $fileName = time() . "_" . $request->add_receipt->getClientOriginalName();
                 // $request->add_receipt->storeAs('uploads/revenue', $fileName);
                 $revenue->add_receipt = $fileName;
-                
+
 
 
                 $dir        = 'uploads/revenue';

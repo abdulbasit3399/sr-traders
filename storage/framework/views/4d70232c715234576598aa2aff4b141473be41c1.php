@@ -27,7 +27,7 @@
 
 <!-- Warning Section Ends -->
 <!-- Required Js -->
-<script src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
+<script src="<?php echo e(asset('js/jquery1.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/js/plugins/popper.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/js/plugins/perfect-scrollbar.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/js/plugins/bootstrap.min.js')); ?>"></script>
