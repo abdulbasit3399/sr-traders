@@ -746,6 +746,8 @@ Route::group(
         Route::post('invoice/returnstore', 'InvoiceController@returnstore')->name('invoice.returnstore');
 
 
+        Route::post('product/ajax_sort/{cat_id}','InvoiceController@ajax_sort');
+
 
     }
 );
@@ -854,6 +856,7 @@ Route::group(
         ],
     ],
     function () {
+        Route::get('bill/customerbill', 'BillController@customerbill')->name('customer.bill');
 
         Route::get('bill/{id}/duplicate', 'BillController@duplicate')->name('bill.duplicate');
         Route::get('bill/{id}/shipping/print', 'BillController@shippingDisplay')->name('bill.shipping.print');
@@ -870,9 +873,10 @@ Route::group(
 
         Route::resource('bill', 'BillController');
         Route::get('bill/create/{cid}', 'BillController@create')->name('bill.create');
-
         Route::get('billReturn/create/{cid}', 'BillController@returncreate')->name('bill.create');
         Route::post('bill/returnstore', 'BillController@returnstore')->name('bill.returnstore');
+
+
 
     }
 );
@@ -913,6 +917,19 @@ Route::group(
     }
 );
 
+// Route::group(
+//     [
+//         'middleware' => [
+//             'auth',
+//             'XSS', 'revalidate',
+//         ],
+//     ],
+//     function () {
+//         Route::get('customer/list', 'BillingController@customerlist')->name('customer.list');
+
+//     }
+// );
+
 Route::group(
     [
         'middleware' => [
@@ -931,7 +948,6 @@ Route::group(
         Route::get('report/invoice-summary', 'ReportController@invoiceSummary')->name('report.invoice.summary');
         Route::get('report/bill-summary', 'ReportController@billSummary')->name('report.bill.summary');
         Route::get('report/product-stock-report', 'ReportController@productStock')->name('report.product.stock.report');
-
 
         Route::get('report/invoice-report', 'ReportController@invoiceReport')->name('report.invoice');
         Route::get('report/account-statement-report', 'ReportController@accountStatement')->name('report.account.statement');

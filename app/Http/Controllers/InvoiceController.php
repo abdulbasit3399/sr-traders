@@ -26,6 +26,8 @@ use App\Models\Task;
 use App\Models\Transaction;
 use App\Models\Utility;
 use App\Models\User;
+use App\Models\Voucher;
+
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -34,6 +36,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InvoiceExport;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -129,12 +132,15 @@ class InvoiceController extends Controller
             $invoice_number = \Auth::user()->invoiceNumberFormat($this->invoiceNumber());
             $customers      = Customer::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('Select Customer', '');
-            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
+            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get()->pluck('name', 'id');
             $category->prepend('Select Category', '');
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $product_services->prepend('--', '');
+            $product_services->prepend('Select', '');
 
-            return view('invoice.create', compact('customers', 'invoice_number', 'product_services', 'category', 'customFields', 'customerId'));
+            $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
+            $cat->prepend('Select Category', '');
+
+            return view('invoice.create', compact('customers', 'invoice_number', 'product_services', 'category', 'cat', 'customFields', 'customerId'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -170,10 +176,10 @@ class InvoiceController extends Controller
     {
 
         $data['product']     = $product = ProductService::find($request->product_id);
-        $data['unit']        = (!empty($product->unit())) ? $product->unit()->name : '';
+        // $data['unit']        = (!empty($product->unit())) ? $product->unit()->name : '';
         $data['taxRate']     = $taxRate = !empty($product->tax_id) ? $product->taxRate($product->tax_id) : 0;
         $data['taxes']       = !empty($product->tax_id) ? $product->tax($product->tax_id) : 0;
-        $salePrice           = $product->sale_price;
+        $salePrice           = $request->sale_price;
         $quantity            = 1;
         $taxPrice            = ($taxRate / 100) * ($salePrice * $quantity);
         $data['totalAmount'] = ($salePrice * $quantity);
@@ -251,6 +257,7 @@ class InvoiceController extends Controller
                 $ut->addProductStock( $products[$i]['item'],$invoiceProduct->quantity,$type,$description,$type_id);
 
             }
+
             Utility::userBalance('customer', $customer->id, $total, 'debit');
 
             //Twilio Notification
@@ -272,7 +279,6 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
-
         if (\Auth::user()->can('create invoice')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -295,15 +301,22 @@ class InvoiceController extends Controller
             $invoice                 = new Invoice();
             $invoice->invoice_id     = $this->invoiceNumber();
             $invoice->customer_id    = $request->customer_id;
-            $invoice->status         = 0;
+
+            $it = $request->items;
+            for ($i = 0; $i < count($it); $i++) {
+                $st         = $it[$i]['price'];
+            }
+            if($st != 0){
+                $invoice->status         = 0;
+            } elseif($st == 0) {
+                $invoice->status         = 1;
+            }
             $invoice->issue_date     = $request->issue_date;
             $invoice->due_date       = $request->due_date;
             $invoice->category_id    = $request->category_id;
             $invoice->ref_number     = $request->ref_number;
             $invoice->discount_apply = isset($request->discount_apply) ? 1 : 0;
             $invoice->created_by     = \Auth::user()->creatorId();
-            // dd($invoice);
-
             $invoice->save();
 
             Utility::starting_number( $invoice->invoice_id + 1, 'invoice');
@@ -315,11 +328,13 @@ class InvoiceController extends Controller
                 $invoiceProduct->invoice_id  = $invoice->id;
                 $invoiceProduct->product_id  = $products[$i]['item'];
                 $invoiceProduct->quantity    = $products[$i]['quantity'];
-                $invoiceProduct->tax         = $products[$i]['tax'];
+                $invoiceProduct->category_id  = $products[$i]['category_id'];
+                // $invoiceProduct->tax         = $products[$i]['tax'];
                 // $invoiceProduct->discount    = (isset($request->discount_apply)) ? isset($products[$i]['discount']) ? $products[$i]['discount'] : 0: 0;
                 $invoiceProduct->discount    = $products[$i]['discount'];
                 $invoiceProduct->price       = $products[$i]['price'];
-                $invoiceProduct->description = $products[$i]['description'];
+                // $invoiceProduct->description = $products[$i]['description'];
+
                 $invoiceProduct->save();
 
                 Utility::total_quantity('minus',$invoiceProduct->quantity,$invoiceProduct->product_id);
@@ -332,6 +347,20 @@ class InvoiceController extends Controller
                 $ut->addProductStock( $products[$i]['item'],$invoiceProduct->quantity,$type,$description,$type_id);
 
             }
+
+            $voc                 = new Voucher();
+            $voc->user_id        = $request->customer_id;
+            $voc->invoice_id     = $invoice->id;
+            $voc->revenue_id     = 0;
+            $voc->voucher_no     = 'VOC'.rand(10000, 99999);
+            $voc->date           = Carbon::now();
+            $in = Invoice::where('id', $invoice->id)->first();
+            $due                 = $in->getDue();
+            $total               = $in->getTotal();
+            $voc->debit          = $total;
+            $voc->save();
+
+
             //Twilio Notification
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $customer = Customer::find($request->customer_id);
@@ -346,22 +375,57 @@ class InvoiceController extends Controller
         }
     }
 
+    public function ajax_sort(Request $request)
+    {
+        echo $cat_id = $request->post('cat_id');
+        $product_servicess = ProductService::where('category_id', $cat_id)->get();
+
+        $html = '<option value="">Select</option>';
+
+        foreach($product_servicess as $product_services){
+            $html.='<option value="'.$product_services->id.'">'.$product_services->name.'</option>';
+        }
+        echo $html;
+        // $product_services->prepend('select', '');
+    }
+
     public function edit($ids)
     {
         if (\Auth::user()->can('edit invoice')) {
             $id      = Crypt::decrypt($ids);
             $invoice = Invoice::find($id);
+            // dd($invoice);
 
             $invoice_number = \Auth::user()->invoiceNumberFormat($invoice->invoice_id);
             $customers      = Customer::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $category       = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
-            $category->prepend('Select Category', '');
+            $category       = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get();
+            // dd($category);
+            // dd('hh');
+
+            // for ($i = 1; $i < count($category); $i++) {
+            //     $st         = $category[$i]['id'];
+            //     $stn         = $category[$i]['name'];
+
+            // }
+            // if($st != $invoice->category_id){
+            //     $category->prepend('Select Category1', '');
+
+            // } elseif($st == $invoice->category_id) {
+            //     $category->prepend($stn, '');
+            // }
+
+            // if($invoice->category_id)
+            // $category->prepend($stn, '');
+            $products = InvoiceProduct::where('invoice_id',$invoice->id)->get();
+            dd($products);
+            $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
+            $cat->prepend('Select', '');
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             $invoice->customField = CustomField::getData($invoice, 'invoice');
             $customFields         = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'invoice')->get();
 
-            return view('invoice.edit', compact('customers', 'product_services', 'invoice', 'invoice_number', 'category', 'customFields'));
+            return view('invoice.edit', compact('customers','cat', 'product_services', 'invoice', 'invoice_number', 'category', 'customFields'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -369,6 +433,7 @@ class InvoiceController extends Controller
 
     public function update(Request $request, Invoice $invoice)
     {
+
         if (\Auth::user()->can('edit bill')) {
             if ($invoice->created_by == \Auth::user()->creatorId()) {
                 $validator = \Validator::make(
@@ -416,10 +481,10 @@ class InvoiceController extends Controller
                     }
 
                     $invoiceProduct->quantity    = $products[$i]['quantity'];
-                    $invoiceProduct->tax         = $products[$i]['tax'];
-                    $invoiceProduct->discount    = $products[$i]['discount'];
+                    // $invoiceProduct->tax         = $products[$i]['tax'];
+                    // $invoiceProduct->discount    = $products[$i]['discount'];
                     $invoiceProduct->price       = $products[$i]['price'];
-                    $invoiceProduct->description = $products[$i]['description'];
+                    // $invoiceProduct->description = $products[$i]['description'];
                     $invoiceProduct->save();
                     // Utility::total_quantity('plus',$products[$i]['quantity'],$invoiceProduct->product_id);
 
@@ -441,6 +506,30 @@ class InvoiceController extends Controller
                     // Utility::addProductStock( $products[$i]['item'],$products[$i]['quantity'],$type,$description,$type_id);
 
                 }
+
+                // $i = $invoice->id;
+                // dump($i);
+                $voc                 = Voucher::where('invoice_id', $invoice->id)->first();
+
+                $voc->user_id        = $request->customer_id;
+                $voc->invoice_id     = $invoice->id;
+
+                $voc->revenue_id     = 0;
+                $voc->voucher_no     = 'VOC'.rand(10000, 99999);
+                $voc->date           = Carbon::now();
+
+                $in = Invoice::where('id', $invoice->id)->first();
+                $due                 = $in->getDue();
+                $total               = $in->getTotal();
+                $voc->debit          = $total;
+
+                // if($voc->debit != null)
+                // {
+                //     $voc->amount         = $total.'Dr';
+                // }
+                // dd($voc);
+
+                $voc->save();
 
                 return redirect()->route('invoice.index')->with('success', __('Invoice successfully updated.'));
             } else {

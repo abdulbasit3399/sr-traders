@@ -292,16 +292,12 @@
                                 </li>
                             <?php endif; ?>
 
-                            <!--<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage revenue')): ?>-->
-                            <!--    <li class="dash-item <?php echo e((Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : ''); ?>">-->
-                            <!--        <a class="dash-link" href="<?php echo e(route('revenue.index')); ?>"><?php echo e(__('Revenue')); ?></a>-->
-                            <!--    </li>-->
-                            <!--<?php endif; ?>-->
-                            <!--<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage credit note')): ?>-->
-                            <!--    <li class="dash-item <?php echo e((Request::route()->getName() == 'credit.note' ) ? ' active' : ''); ?>">-->
-                            <!--        <a class="dash-link" href="<?php echo e(route('credit.note')); ?>"><?php echo e(__('Credit Note')); ?></a>-->
-                            <!--    </li>-->
-                            <!--<?php endif; ?>-->
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage revenue')): ?>
+                                <li class="dash-item <?php echo e((Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : ''); ?>">
+                                    <a class="dash-link" href="<?php echo e(route('revenue.index')); ?>"><?php echo e(__('Revenue')); ?></a>
+                                </li>
+                            <?php endif; ?>
+                            
                         </ul>
                     </li>
 
@@ -317,6 +313,11 @@
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage bill')): ?>
                                 <li class="dash-item  <?php echo e((Request::route()->getName() == 'bill.index' || Request::route()->getName() == 'bill.create' || Request::route()->getName() == 'bill.edit' || Request::route()->getName() == 'bill.show') ? ' active' : ''); ?>">
                                     <a class="dash-link" href="<?php echo e(route('bill.index')); ?>"><?php echo e(__('Bill')); ?></a>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage payment')): ?>
+                                <li class="dash-item  <?php echo e((Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill') ? ' active' : ''); ?>">
+                                    <a class="dash-link" href="<?php echo e(route('customer.bill')); ?>"><?php echo e(__('Customer Bill')); ?></a>
                                 </li>
                             <?php endif; ?>
                             <!--<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage payment')): ?>-->

@@ -5,7 +5,7 @@
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
     <li class="breadcrumb-item"><a href="{{route('invoice.index')}}">{{__('Invoice')}}</a></li>
-    <li class="breadcrumb-item">{{ AUth::user()->invoiceNumberFormat($invoice->invoice_id) }}</li>  
+    <li class="breadcrumb-item">{{ AUth::user()->invoiceNumberFormat($invoice->invoice_id) }}</li>
 @endsection
 @push('script-page')
     <script src="{{asset('js/jquery-ui.min.js')}}"></script>
@@ -67,6 +67,25 @@
             }
 
         }
+
+        $(document).on('change', '.category_id', function () {
+            var app_url = $('#app_url').val();
+            $(this).find(":selected");
+            var el = $(this);
+            var cat_id = $(this).val();
+            var url = app_url+'/product/ajax_sort/'+cat_id;
+
+            $.ajax({
+                url: url,
+                type:'POST',
+                data:'cat_id='+cat_id+'&_token={{ csrf_token() }}',
+                success:function(result){
+                    el.parent().parent().find('.item').html(result);
+                    {{--  $('#state').html(result)  --}}
+                }
+
+            });
+        });
 
         $(document).on('change', '#customer', function () {
             $('#customer_detail').removeClass('d-none');
@@ -380,13 +399,15 @@
         {{ Form::model($invoice, array('route' => array('invoice.update', $invoice->id), 'method' => 'PUT','class'=>'w-100')) }}
         <div class="col-12">
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="hidden" id="app_url" value="{{ env('APP_URL') }}" />
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group" id="customer-box">
                                 {{ Form::label('customer_id', __('Customer'),['class'=>'form-label']) }}
-                                {{ Form::select('customer_id', $customers,null, array('class' => 'form-control select ','id'=>'customer','data-url'=>route('invoice.customer'),'required'=>'required')) }}
+                                {{ Form::select('customer_id', $customers,null, array('class' => 'form-control select ','id'=>'customerr','data-url'=>route('invoice.customer'),'required'=>'required')) }}
                             </div>
                             <div id="customer_detail" class="d-none">
                             </div>
@@ -421,7 +442,7 @@
                                 </div>
                                 <div class="col-md-6">
                                         {{ Form::label('category_id', __('Category'),['class'=>'form-label']) }}
-                                        {{ Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required')) }}
+                                        {{ Form::select('category_id', $cat,null, array('class' => 'form-control select','required'=>'required')) }}
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -459,7 +480,7 @@
                         <div class="col-md-12 d-flex align-items-center justify-content-between justify-content-md-end">
                             <div class="all-button-box">
                                 <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#add-bank">
-                                    <i class="ti ti-plus"></i> {{__('Add item')}}
+                                    <i class="ti ti-plus"></i> {{__('Add Size')}}
                                 </a>
                             </div>
                         </div>
@@ -470,12 +491,14 @@
                         <table class="table mb-0 table-custom-style" data-repeater-list="items" id="sortable-table">
                             <thead>
                             <tr>
-                                <th>{{__('Items')}}</th>
+                                <th>{{__('Category')}}</th>
+                                <th>{{__('Size')}}</th>
                                 <th>{{__('Quantity')}}</th>
                                 <th>{{__('Price')}} </th>
-                                <th>{{__('Tax')}}</th>
-                                <th>{{__('Discount')}}</th>
+                                {{--  <th>{{__('Tax')}}</th>
+                                <th>{{__('Discount')}}</th>  --}}
                                 <th class="text-end">{{__('Amount')}} </th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -483,8 +506,18 @@
                             <tr>
                                 {{ Form::hidden('id',null, array('class' => 'form-control id')) }}
                                 <td width="25%" class="form-group pt-0">
-                                        {{ Form::select('item', $product_services,null, array('class' => 'form-control item select','data-url'=>route('invoice.product'))) }}
-
+                                    <select name="category_id" class="form-control select category_id" required 'data-id'={{ $category }}>
+                                        @foreach($category as $cat)
+                                        <option>{{ $cat->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{--  {{ Form::select('name', $category,null, array('class' => 'form-control select category_id','required'=>'required','data-id' => $category)) }}  --}}
+                                </td>
+                                <td width="25%" class="form-group pt-0">
+                                        {{--  {{ Form::select('item', $product_services,null, array('class' => 'form-control item select','data-url'=>route('invoice.product'))) }}  --}}
+                                    <select name="item" class="form-control item" data-url={{ route('invoice.product') }}>
+                                        <option value="">Select State</option>
+                                    </select>
                                 </td>
                                 <td>
 
@@ -499,7 +532,7 @@
                                         <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
                                     </div>
                                 </td>
-                                <td>
+                                {{--  <td>
                                     <div class="form-group">
                                         <div class="input-group colorpickerinput">
                                             <div class="taxes"></div>
@@ -508,10 +541,10 @@
                                             {{ Form::hidden('itemTaxRate','', array('class' => 'form-control itemTaxRate')) }}
                                         </div>
                                     </div>
-                                </td>
-                                <td>
+                                </td>  --}}
+                                <td class="d-none">
                                 <div class="form-group price-input input-group search-form">
-                                        {{ Form::text('discount',null, array('class' => 'form-control discount','required'=>'required','placeholder'=>__('Discount'))) }}
+                                        {{ Form::text('discount',0, array('class' => 'form-control discount','required'=>'required','placeholder'=>__('Discount'))) }}
                                         <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
                                     </div>
                                 </td>
@@ -523,14 +556,14 @@
                                     @endcan
                                 </td>
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td colspan="2">
                                     <div class="form-group">
                                         {{ Form::textarea('description', null, ['class'=>'form-control','rows'=>'2','placeholder'=>__('Description')]) }}
                                     </div>
                                 </td>
                                 <td colspan="5"></td>
-                            </tr>
+                            </tr>  --}}
                             </tbody>
                             <tfoot>
                             <tr>
@@ -542,7 +575,7 @@
                                 <td class="text-end subTotal">0.00</td>
                                 <td></td>
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -559,7 +592,7 @@
                                 <td><strong>{{__('Tax')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="text-end totalTax">0.00</td>
                                 <td></td>
-                            </tr>
+                            </tr>  --}}
                             <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

@@ -18,11 +18,11 @@ class Invoice extends Model
     ];
 
     public static $statues = [
-        'Draft',
-        'Sent',
-        'Unpaid',
-        'Partialy Paid',
-        'Paid',
+        'complete',
+        'pending',
+        '',
+        '',
+        '',
     ];
 
 

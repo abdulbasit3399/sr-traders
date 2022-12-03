@@ -292,16 +292,16 @@
                                 </li>
                             @endcan
 
-                            <!--@can('manage revenue')-->
-                            <!--    <li class="dash-item {{ (Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : '' }}">-->
-                            <!--        <a class="dash-link" href="{{route('revenue.index')}}">{{ __('Revenue') }}</a>-->
-                            <!--    </li>-->
-                            <!--@endcan-->
-                            <!--@can('manage credit note')-->
-                            <!--    <li class="dash-item {{ (Request::route()->getName() == 'credit.note' ) ? ' active' : '' }}">-->
-                            <!--        <a class="dash-link" href="{{route('credit.note')}}">{{ __('Credit Note') }}</a>-->
-                            <!--    </li>-->
-                            <!--@endcan-->
+                            @can('manage revenue')
+                                <li class="dash-item {{ (Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{route('revenue.index')}}">{{ __('Revenue') }}</a>
+                                </li>
+                            @endcan
+                            {{--  @can('manage credit note')
+                                <li class="dash-item {{ (Request::route()->getName() == 'credit.note' ) ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{route('credit.note')}}">{{ __('Credit Note') }}</a>
+                                </li>
+                            @endcan  --}}
                         </ul>
                     </li>
 
@@ -317,6 +317,11 @@
                             @can('manage bill')
                                 <li class="dash-item  {{ (Request::route()->getName() == 'bill.index' || Request::route()->getName() == 'bill.create' || Request::route()->getName() == 'bill.edit' || Request::route()->getName() == 'bill.show') ? ' active' : '' }}">
                                     <a class="dash-link" href="{{ route('bill.index') }}">{{__('Bill')}}</a>
+                                </li>
+                            @endcan
+                            @can('manage payment')
+                                <li class="dash-item  {{ (Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill' || Request::route()->getName() == 'customer.bill') ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('customer.bill') }}">{{__('Customer Bill')}}</a>
                                 </li>
                             @endcan
                             <!--@can('manage payment')-->

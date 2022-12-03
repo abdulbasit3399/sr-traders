@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BillExport;
+use App\Models\Invoice;
+use App\Models\Voucher;
+use App\Models\Customer;
 
 
 class BillController extends Controller
@@ -31,6 +34,7 @@ class BillController extends Controller
 
     public function index(Request $request)
     {
+
         if (\Auth::user()->can('manage bill')) {
 
             $vender = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -66,6 +70,28 @@ class BillController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
+    public function customerbill(Request $request)
+    {
+        $customer = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $customer->prepend('Select Customer', '');
+
+        $result = Voucher::where('date', '<=', date('Y-m-d'));
+        if (!empty($request->customer)) {
+            $result->where('user_id', '=', $request->customer);
+        }
+
+        if (str_contains($request->date, ' to ')) {
+            $date_range = explode(' to ', $request->date);
+            $result->whereBetween('date', $date_range);
+        }elseif(!empty($request->date)){
+
+            $result->where('date', $request->date);
+        }
+        $results = $result->get();
+
+        return view('bill.customer_bill', compact('results', 'customer'));
+    }
+
 
     public function returncreate($vendorId)
     {

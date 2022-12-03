@@ -12,6 +12,8 @@ use App\Models\Transaction;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Voucher;
+use Carbon\Carbon;
 
 class RevenueController extends Controller
 {
@@ -143,6 +145,15 @@ class RevenueController extends Controller
             }
             $revenue->created_by     = \Auth::user()->creatorId();
             $revenue->save();
+
+            $voc                 = new Voucher();
+            $voc->user_id        = $request->customer_id;
+            $voc->invoice_id     = 0;
+            $voc->revenue_id     = $revenue->id;
+            $voc->voucher_no     = 'VOC'.rand(10000, 99999);
+            $voc->date           = Carbon::now();
+            $voc->credit         = $request->amount;
+            $voc->save();
 
             $category            = ProductServiceCategory::where('id', $request->category_id)->first();
             $revenue->payment_id = $revenue->id;
@@ -286,6 +297,17 @@ class RevenueController extends Controller
                 $revenue->save();
             }
             $revenue->save();
+
+        // dd($revenue->id);
+            $voc                 = Voucher::where('revenue_id', $revenue->id)->first();
+            $voc->user_id        = $request->customer_id;
+            $voc->invoice_id     = 0;
+            $voc->revenue_id     = $revenue->id;
+            $voc->voucher_no     = 'VOC'.rand(10000, 99999);
+            $voc->date           = Carbon::now();
+            $voc->credit         = $request->amount;
+            $voc->save();
+
 
             $category            = ProductServiceCategory::where('id', $request->category_id)->first();
             $revenue->category   = $category->name;
