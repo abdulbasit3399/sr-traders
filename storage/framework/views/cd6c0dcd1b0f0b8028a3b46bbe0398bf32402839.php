@@ -524,11 +524,7 @@
                                             <td><b><?php echo e(__('Total')); ?></b></td>
                                             <td><b><?php echo e($totalQuantity); ?></b></td>
                                             <td><b><?php echo e(\Auth::user()->priceFormat($totalRate)); ?></b></td>
-                                            <td><b><?php echo e(\Auth::user()->priceFormat($totalTaxPrice)); ?></b></td>
-                                            <td>
-                                                    <b><?php echo e(\Auth::user()->priceFormat($totalDiscount)); ?></b>
-
-                                            </td>
+                                            
 
                                         </tr>
                                         <tr>
@@ -570,7 +566,6 @@
 
 
     
-    <div class="row"></div>
     
 </div>
 

@@ -97,6 +97,24 @@
             $('#vender_detail').addClass('d-none');
         })
 
+        $(document).on('change', '.category_id', function () {
+            var app_url = $('#app_url').val();
+            $(this).find(":selected");
+            var el = $(this);
+            var cat_id = $(this).val();
+            var url = app_url+'/product/ajax_sort/'+cat_id;
+
+            $.ajax({
+                url: url,
+                type:'POST',
+                data:'cat_id='+cat_id+'&_token={{ csrf_token() }}',
+                success:function(result){
+                    el.parent().parent().find('.item').html(result);
+                    {{--  $('#state').html(result)  --}}
+                }
+
+            });
+        });
 
         $(document).on('change', '.item', function () {
             var iteams_id = $(this).val();
@@ -296,13 +314,15 @@
         {{ Form::open(array('url' => 'bill','class'=>'w-100')) }}
         <div class="col-12">
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="hidden" id="app_url" value="{{ env('APP_URL') }}" />
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group" id="vender-box">
                                 {{ Form::label('vender_id', __('Vendor'),['class'=>'form-label']) }}
-                                {{ Form::select('vender_id', $venders,$vendorId, array('class' => 'form-control select','id'=>'vender','data-url'=>route('bill.vender'),'required'=>'required')) }}
+                                {{ Form::select('vender_id', $venders,$vendorId, array('class' => 'form-control select','id'=>'venderr','data-url'=>route('bill.vender'),'required'=>'required')) }}
                             </div>
                             <div id="vender_detail" class="d-none">
                             </div>
@@ -338,7 +358,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('category_id', __('Category'),['class'=>'form-label']) }}
-                                        {{ Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required')) }}
+                                        {{ Form::select('category_id',$cat,null, array('class' => 'form-control select','required'=>'required')) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -383,22 +403,22 @@
                         <div class="col-md-12 d-flex align-items-center justify-content-between justify-content-md-end">
                             <div class="all-button-box">
                                 <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#add-bank">
-                                    <i class="ti ti-plus"></i> {{__('Add item')}}
+                                    <i class="ti ti-plus"></i> {{__('Add Size')}}
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table-responsivee">
                         <table class="table mb-0" data-repeater-list="items" id="sortable-table">
                             <thead>
                             <tr>
                                 <th>{{__('Items')}}</th>
                                 <th>{{__('Quantity')}}</th>
                                 <th>{{__('Price')}} </th>
-                                <th>{{__('Tax')}} (%)</th>
-                                <th>{{__('Discount')}}</th>
+                                {{--  <th>{{__('Tax')}} (%)</th>
+                                <th>{{__('Discount')}}</th>  --}}
                                 <th class="text-end">{{__('Amount')}} <br><small class="text-danger font-weight-bold">{{__('before tax & discount')}}</small></th>
                                 <th></th>
                             </tr>
@@ -406,7 +426,14 @@
                             <tbody class="ui-sortable" data-repeater-item>
                             <tr>
                                 <td width="25%" class="form-group pt-0">
-                                     {{ Form::select('item', $product_services,'', array('class' => 'form-control select2 item','data-url'=>route('bill.product'),'required'=>'required')) }}
+                                    {{ Form::select('category_id', $category,null, array('class' => 'form-control select category_id','required'=>'required','data-id' => $category)) }}
+                                </td>
+
+                                <td width="25%" class="form-group pt-0">
+                                    <select name="item" class="form-control item" data-url={{ route('invoice.product') }}>
+                                        <option value="">Select State</option>
+                                    </select>
+                                     {{--  {{ Form::select('item', $product_services,'', array('class' => 'form-control select2 item','data-url'=>route('bill.product'),'required'=>'required')) }}  --}}
                                 </td>
                                 <td>
                                     <div class="form-group price-input input-group search-form">
@@ -421,7 +448,7 @@
                                         <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
                                     </div>
                                 </td>
-                                <td>
+                                {{--  <td>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="taxes"></div>
@@ -436,7 +463,7 @@
                                         {{ Form::text('discount','', array('class' => 'form-control discount','required'=>'required','placeholder'=>__('Discount'))) }}
                                         <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
                                     </div>
-                                </td>
+                                </td>  --}}
                                 <td class="text-end amount">
                                     0.00
                                 </td>
@@ -444,24 +471,24 @@
                                     <a href="#" class="ti ti-trash text-white repeater-action-btn bg-danger ms-2" data-repeater-delete></a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td colspan="2">
                                     <div class="form-group">{{ Form::textarea('description', null, ['class'=>'form-control','rows'=>'2','placeholder'=>__('Description')]) }}</div>
                                 </td>
                                 <td colspan="5"></td>
-                            </tr>
+                            </tr>  --}}
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td>&nbsp;</td>
+                                {{--  <td>&nbsp;</td>  --}}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td></td>
                                 <td><strong>{{__('Sub Total')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="text-end subTotal">0.00</td>
-                                <td></td>
+                                {{--  <td></td>  --}}
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -469,8 +496,8 @@
                                 <td><strong>{{__('Discount')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="text-end totalDiscount">0.00</td>
                                 <td></td>
-                            </tr>
-                            <tr>
+                            </tr>  --}}
+                            {{--  <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -478,15 +505,15 @@
                                 <td><strong>{{__('Tax')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="text-end totalTax">0.00</td>
                                 <td></td>
-                            </tr>
+                            </tr>  --}}
                             <tr>
-                                <td>&nbsp;</td>
+                                {{--  <td>&nbsp;</td>  --}}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td class="blue-text"><strong>{{__('Total Amount')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="blue-text text-end totalAmount"></td>
-                                <td></td>
+                                {{--  <td></td>  --}}
                             </tr>
                             </tfoot>
                         </table>

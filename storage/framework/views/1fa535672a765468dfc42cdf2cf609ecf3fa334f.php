@@ -96,6 +96,24 @@
             $('#vender_detail').addClass('d-none');
         })
 
+        $(document).on('change', '.category_id', function () {
+            var app_url = $('#app_url').val();
+            $(this).find(":selected");
+            var el = $(this);
+            var cat_id = $(this).val();
+            var url = app_url+'/product/ajax_sort/'+cat_id;
+
+            $.ajax({
+                url: url,
+                type:'POST',
+                data:'cat_id='+cat_id+'&_token=<?php echo e(csrf_token()); ?>',
+                success:function(result){
+                    el.parent().parent().find('.item').html(result);
+                    
+                }
+
+            });
+        });
 
         $(document).on('change', '.item', function () {
             var iteams_id = $(this).val();
@@ -296,6 +314,8 @@
 
         <div class="col-12">
             <input type="hidden" name="_token" id="token" value="<?php echo e(csrf_token()); ?>">
+            <input type="hidden" id="app_url" value="<?php echo e(env('APP_URL')); ?>" />
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -303,7 +323,7 @@
                             <div class="form-group" id="vender-box">
                                 <?php echo e(Form::label('vender_id', __('Vendor'),['class'=>'form-label'])); ?>
 
-                                <?php echo e(Form::select('vender_id', $venders,$vendorId, array('class' => 'form-control select','id'=>'vender','data-url'=>route('bill.vender'),'required'=>'required'))); ?>
+                                <?php echo e(Form::select('vender_id', $venders,$vendorId, array('class' => 'form-control select','id'=>'venderr','data-url'=>route('bill.vender'),'required'=>'required'))); ?>
 
                             </div>
                             <div id="vender_detail" class="d-none">
@@ -346,7 +366,7 @@
                                     <div class="form-group">
                                         <?php echo e(Form::label('category_id', __('Category'),['class'=>'form-label'])); ?>
 
-                                        <?php echo e(Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required'))); ?>
+                                        <?php echo e(Form::select('category_id',$cat,null, array('class' => 'form-control select','required'=>'required'))); ?>
 
                                     </div>
                                 </div>
@@ -396,7 +416,7 @@
                         <div class="col-md-12 d-flex align-items-center justify-content-between justify-content-md-end">
                             <div class="all-button-box">
                                 <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#add-bank">
-                                    <i class="ti ti-plus"></i> <?php echo e(__('Add item')); ?>
+                                    <i class="ti ti-plus"></i> <?php echo e(__('Add Size')); ?>
 
                                 </a>
                             </div>
@@ -404,15 +424,14 @@
                     </div>
                 </div>
                 <div class="card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table-responsivee">
                         <table class="table mb-0" data-repeater-list="items" id="sortable-table">
                             <thead>
                             <tr>
                                 <th><?php echo e(__('Items')); ?></th>
                                 <th><?php echo e(__('Quantity')); ?></th>
                                 <th><?php echo e(__('Price')); ?> </th>
-                                <th><?php echo e(__('Tax')); ?> (%)</th>
-                                <th><?php echo e(__('Discount')); ?></th>
+                                
                                 <th class="text-end"><?php echo e(__('Amount')); ?> <br><small class="text-danger font-weight-bold"><?php echo e(__('before tax & discount')); ?></small></th>
                                 <th></th>
                             </tr>
@@ -420,8 +439,15 @@
                             <tbody class="ui-sortable" data-repeater-item>
                             <tr>
                                 <td width="25%" class="form-group pt-0">
-                                     <?php echo e(Form::select('item', $product_services,'', array('class' => 'form-control select2 item','data-url'=>route('bill.product'),'required'=>'required'))); ?>
+                                    <?php echo e(Form::select('category_id', $category,null, array('class' => 'form-control select category_id','required'=>'required','data-id' => $category))); ?>
 
+                                </td>
+
+                                <td width="25%" class="form-group pt-0">
+                                    <select name="item" class="form-control item" data-url=<?php echo e(route('invoice.product')); ?>>
+                                        <option value="">Select State</option>
+                                    </select>
+                                     
                                 </td>
                                 <td>
                                     <div class="form-group price-input input-group search-form">
@@ -438,26 +464,7 @@
                                         <span class="input-group-text bg-transparent"><?php echo e(\Auth::user()->currencySymbol()); ?></span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="taxes"></div>
-                                            <?php echo e(Form::hidden('tax','', array('class' => 'form-control tax'))); ?>
-
-                                            <?php echo e(Form::hidden('itemTaxPrice','', array('class' => 'form-control itemTaxPrice'))); ?>
-
-                                            <?php echo e(Form::hidden('itemTaxRate','', array('class' => 'form-control itemTaxRate'))); ?>
-
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group price-input input-group search-form">
-                                        <?php echo e(Form::text('discount','', array('class' => 'form-control discount','required'=>'required','placeholder'=>__('Discount')))); ?>
-
-                                        <span class="input-group-text bg-transparent"><?php echo e(\Auth::user()->currencySymbol()); ?></span>
-                                    </div>
-                                </td>
+                                
                                 <td class="text-end amount">
                                     0.00
                                 </td>
@@ -465,49 +472,28 @@
                                     <a href="#" class="ti ti-trash text-white repeater-action-btn bg-danger ms-2" data-repeater-delete></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div class="form-group"><?php echo e(Form::textarea('description', null, ['class'=>'form-control','rows'=>'2','placeholder'=>__('Description')])); ?></div>
-                                </td>
-                                <td colspan="5"></td>
-                            </tr>
+                            
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td>&nbsp;</td>
+                                
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td></td>
                                 <td><strong><?php echo e(__('Sub Total')); ?> (<?php echo e(\Auth::user()->currencySymbol()); ?>)</strong></td>
                                 <td class="text-end subTotal">0.00</td>
-                                <td></td>
+                                
                             </tr>
+                            
+                            
                             <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td></td>
-                                <td><strong><?php echo e(__('Discount')); ?> (<?php echo e(\Auth::user()->currencySymbol()); ?>)</strong></td>
-                                <td class="text-end totalDiscount">0.00</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td></td>
-                                <td><strong><?php echo e(__('Tax')); ?> (<?php echo e(\Auth::user()->currencySymbol()); ?>)</strong></td>
-                                <td class="text-end totalTax">0.00</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
+                                
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td class="blue-text"><strong><?php echo e(__('Total Amount')); ?> (<?php echo e(\Auth::user()->currencySymbol()); ?>)</strong></td>
                                 <td class="blue-text text-end totalAmount"></td>
-                                <td></td>
+                                
                             </tr>
                             </tfoot>
                         </table>

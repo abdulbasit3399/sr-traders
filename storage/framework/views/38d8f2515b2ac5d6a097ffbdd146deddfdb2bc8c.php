@@ -474,6 +474,9 @@
                             <td class="text-end amount">0.00</td>
                             <td>
                                 <a href="#" class="ti ti-trash text-white repeater-action-btn bg-danger ms-2 bs-pass-para" data-repeater-delete></a>
+                                <a  data-repeater-create="" class="ti ti-plus repeater-action-btn bg-success ms-2" data-toggle="modal" data-target="#add-bank">
+                                    
+                                </a>
                             </td>
                         </tr>
                         

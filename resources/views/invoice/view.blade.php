@@ -538,11 +538,11 @@
                                             <td><b>{{__('Total')}}</b></td>
                                             <td><b>{{$totalQuantity}}</b></td>
                                             <td><b>{{\Auth::user()->priceFormat($totalRate)}}</b></td>
-                                            <td><b>{{\Auth::user()->priceFormat($totalTaxPrice)}}</b></td>
+                                            {{--  <td><b>{{\Auth::user()->priceFormat($totalTaxPrice)}}</b></td>
                                             <td>
                                                     <b>{{\Auth::user()->priceFormat($totalDiscount)}}</b>
 
-                                            </td>
+                                            </td>  --}}
 
                                         </tr>
                                         <tr>
@@ -661,8 +661,8 @@
                     </div>
                 </div>
             </div>
-    <!-- </div> -->  --}}
-    <div class="row"></div>
+    <!-- </div> -->
+    <div class="row"></div>  --}}
     {{--  <!-- <div class="col-12"> -->
             <h5 class="h4 d-inline-block font-weight-400 mb-2">{{__('Credit Note Summary')}}</h5>
             <div class="card">

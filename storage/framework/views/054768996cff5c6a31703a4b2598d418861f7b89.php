@@ -521,7 +521,7 @@
                                 <td width="25%" class="form-group pt-0">
                                     <select name="category_id" class="form-control select category_id" required 'data-id'=<?php echo e($category); ?>>
                                         <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option><?php echo e($cat->name); ?></option>
+                                        <option value="<?php echo e($cat->id); ?>"><?php echo e($cat->name); ?></option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                     

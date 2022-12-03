@@ -873,7 +873,7 @@ Route::group(
 
         Route::resource('bill', 'BillController');
         Route::get('bill/create/{cid}', 'BillController@create')->name('bill.create');
-        Route::get('billReturn/create/{cid}', 'BillController@returncreate')->name('bill.create');
+        Route::get('billReturn/create/{cid}', 'BillController@returncreate')->name('bill.return.create');
         Route::post('bill/returnstore', 'BillController@returnstore')->name('bill.returnstore');
 
 

@@ -417,7 +417,7 @@ class InvoiceController extends Controller
             // if($invoice->category_id)
             // $category->prepend($stn, '');
             $products = InvoiceProduct::where('invoice_id',$invoice->id)->get();
-            dd($products);
+            // dd($products);
             $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
             $cat->prepend('Select', '');
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');

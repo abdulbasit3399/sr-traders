@@ -508,7 +508,7 @@
                                 <td width="25%" class="form-group pt-0">
                                     <select name="category_id" class="form-control select category_id" required 'data-id'={{ $category }}>
                                         @foreach($category as $cat)
-                                        <option>{{ $cat->name }}</option>
+                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                         @endforeach
                                     </select>
                                     {{--  {{ Form::select('name', $category,null, array('class' => 'form-control select category_id','required'=>'required','data-id' => $category)) }}  --}}

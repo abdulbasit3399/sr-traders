@@ -17,6 +17,7 @@ use App\Models\Transaction;
 use App\Models\Utility;
 use App\Models\Vender;
 use App\Models\User;
+use App\Models\InvoiceProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -119,7 +120,10 @@ class BillController extends Controller
 
         if (\Auth::user()->can('create bill')) {
             $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'bill')->get();
-            $category     = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 2)->get()->pluck('name', 'id');
+            $cat     = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 2)->get()->pluck('name', 'id');
+            $cat->prepend('Select Category', '');
+
+            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get()->pluck('name', 'id');
             $category->prepend('Select Category', '');
 
             $bill_number = \Auth::user()->billNumberFormat($this->billNumber());
@@ -129,7 +133,9 @@ class BillController extends Controller
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $product_services->prepend('--', '');
 
-            return view('bill.create', compact('venders', 'bill_number', 'product_services', 'category', 'customFields', 'vendorId'));
+            // $products = InvoiceProduct::where('invoice_id',$invoice->id)->get();
+
+            return view('bill.create', compact('venders', 'bill_number', 'product_services','cat', 'category', 'customFields', 'vendorId'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -176,11 +182,11 @@ class BillController extends Controller
                 $billProduct->bill_id     = $bill->id;
                 $billProduct->product_id  = $products[$i]['item'];
                 $billProduct->quantity    = $products[$i]['quantity'];
-                $billProduct->tax         = $products[$i]['tax'];
+                // $billProduct->tax         = $products[$i]['tax'];
                 // $billProduct->discount    = (isset($request->discount_apply)) ? isset($products[$i]['discount']) ? $products[$i]['discount'] : 0: 0;
-                $billProduct->discount    = $products[$i]['discount'];
+                // $billProduct->discount    = $products[$i]['discount'];
                 $billProduct->price       = $products[$i]['price'];
-                $billProduct->description = $products[$i]['description'];
+                // $billProduct->description = $products[$i]['description'];
                 $billProduct->save();
 
                 Utility::total_quantity('plus',$billProduct->quantity,$billProduct->product_id);
@@ -252,8 +258,12 @@ class BillController extends Controller
         if (\Auth::user()->can('edit bill')) {
             $id       = Crypt::decrypt($ids);
             $bill     = Bill::find($id);
-            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 2)->get()->pluck('name', 'id');
-            $category->prepend('Select Category', '');
+            $category       = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get();
+
+
+            $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 2)->get()->pluck('name', 'id');
+            $cat->prepend('Select Category', '');
+            $products = BillProduct::where('bill_id',$bill->id)->get();
 
             $bill_number      = \Auth::user()->billNumberFormat($this->billNumber());
             $venders          = Vender::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -262,7 +272,7 @@ class BillController extends Controller
             $bill->customField = CustomField::getData($bill, 'bill');
             $customFields      = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'bill')->get();
 
-            return view('bill.edit', compact('venders', 'product_services', 'bill', 'bill_number', 'category', 'customFields'));
+            return view('bill.edit', compact('venders', 'product_services','cat', 'bill', 'bill_number', 'category', 'customFields'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -271,6 +281,7 @@ class BillController extends Controller
 
     public function update(Request $request, Bill $bill)
     {
+        // dd($request->all());
         if (\Auth::user()->can('edit bill')) {
 
             if ($bill->created_by == \Auth::user()->creatorId()) {
@@ -317,10 +328,10 @@ class BillController extends Controller
                     }
 
                     $billProduct->quantity    = $products[$i]['quantity'];
-                    $billProduct->tax         = $products[$i]['tax'];
-                    $billProduct->discount    = $products[$i]['discount'];
+                    // $billProduct->tax         = $products[$i]['tax'];
+                    // $billProduct->discount    = $products[$i]['discount'];
                     $billProduct->price       = $products[$i]['price'];
-                    $billProduct->description = $products[$i]['description'];
+                    // $billProduct->description = $products[$i]['description'];
                     $billProduct->save();
 
                     // Utility::total_quantity('minus',$products[$i]['quantity'],$billProduct->product_id);
