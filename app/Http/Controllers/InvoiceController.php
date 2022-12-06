@@ -96,26 +96,6 @@ class InvoiceController extends Controller
 
             $query = InvoiceReturn::where('created_by', '=', \Auth::user()->creatorId());
 
-            // if (!empty($request->customer)) {
-            //     $query->where('customer_id', '=', $request->customer);
-            // }
-
-            // if (str_contains($request->issue_date, ' to ')) {
-            //     $date_range = explode(' to ', $request->issue_date);
-            //     $query->whereBetween('issue_date', $date_range);
-            // }elseif(!empty($request->issue_date)){
-
-            //     $query->where('issue_date', $request->issue_date);
-            // }
-
-            // if (!empty($request->issue_date)) {
-            //     $date_range = explode(' to ', $request->issue_date);
-            //     $query->whereBetween('issue_date', $date_range);
-            // }
-
-            // if (!empty($request->status)) {
-            //     $query->where('status', '=', $request->status);
-            // }
             $invoices = $query->get();
 
             return view('InvoiceReturn.index', compact('invoices', 'customer', 'status'));
@@ -148,18 +128,20 @@ class InvoiceController extends Controller
 
     public function returncreate($customerId)
     {
-        // dd('ali');
+
         if (\Auth::user()->can('create invoice')) {
             $customFields   = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'invoice')->get();
             $invoice_number = \Auth::user()->invoiceNumberFormat($this->invoiceNumber());
             $customers      = Customer::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('Select Customer', '');
-            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
+            $category = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get()->pluck('name', 'id');
             $category->prepend('Select Category', '');
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $product_services->prepend('--', '');
 
-            return view('InvoiceReturn.create', compact('customers', 'invoice_number', 'product_services', 'category', 'customFields', 'customerId'));
+            $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
+            $cat->prepend('Select Category', '');
+            return view('InvoiceReturn.create', compact('customers', 'invoice_number','cat', 'product_services', 'category', 'customFields', 'customerId'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -394,30 +376,22 @@ class InvoiceController extends Controller
         if (\Auth::user()->can('edit invoice')) {
             $id      = Crypt::decrypt($ids);
             $invoice = Invoice::find($id);
-            // dd($invoice);
-
             $invoice_number = \Auth::user()->invoiceNumberFormat($invoice->invoice_id);
             $customers      = Customer::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $category       = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 0)->get();
-            // dd($category);
-            // dd('hh');
 
             // for ($i = 1; $i < count($category); $i++) {
             //     $st         = $category[$i]['id'];
             //     $stn         = $category[$i]['name'];
-
             // }
             // if($st != $invoice->category_id){
             //     $category->prepend('Select Category1', '');
-
             // } elseif($st == $invoice->category_id) {
             //     $category->prepend($stn, '');
             // }
-
             // if($invoice->category_id)
             // $category->prepend($stn, '');
             $products = InvoiceProduct::where('invoice_id',$invoice->id)->get();
-            // dd($products);
             $cat = ProductServiceCategory::where('created_by', \Auth::user()->creatorId())->where('type', 1)->get()->pluck('name', 'id');
             $cat->prepend('Select', '');
             $product_services = ProductService::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -597,6 +571,33 @@ class InvoiceController extends Controller
         }
     }
 
+    public function returndestroy(Invoice $invoice)
+    {
+
+        // if (\Auth::user()->can('delete invoice'))
+        // {
+            if ($invoice->created_by == \Auth::user()->creatorId())
+            {
+                foreach($invoice->payments as $invoices)
+                {
+                    Utility::bankAccountBalance($invoices->account_id, $invoices->amount, 'debit');
+                    $invoices->delete();
+                }
+                $invoice->delete();
+                if ($invoice->customer_id != 0) {
+                    Utility::userBalance('customer', $invoice->customer_id, $invoice->getTotal(), 'debit');
+                }
+                InvoiceProduct::where('invoice_id', '=', $invoice->id)->delete();
+
+                return redirect()->route('invoice.returnIndex')->with('success', __('Return successfully deleted.'));
+            } else {
+                return redirect()->back()->with('error', __('Permission denied.'));
+            }
+        // } else {
+        //     return redirect()->back()->with('error', __('Permission denied.'));
+        // }
+    }
+
     public function productDestroy(Request $request)
     {
 
@@ -694,6 +695,27 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function customerInvoiceReturnShow($id)
+    {
+
+        // if (\Auth::user()->can('show invoice')) {
+            $invoice_id = Crypt::decrypt($id);
+            $invoice    = Invoice::where('id', $invoice_id)->first();
+            if ($invoice->created_by == \Auth::user()->creatorId()) {
+                $customer = $invoice->customer;
+                $iteams   = $invoice->items;
+                $company_payment_setting = Utility::getCompanyPaymentSetting();
+
+                return view('InvoiceReturn.view', compact('invoice', 'customer', 'iteams', 'company_payment_setting'));
+            } else {
+                return redirect()->back()->with('error', __('Permission denied.'));
+            }
+        // } else {
+        //     return redirect()->back()->with('error', __('Permission denied.'));
+        // }
+    }
+
 
     public function sent($id)
     {

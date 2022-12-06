@@ -87,7 +87,7 @@
                     <li class="dash-item <?php echo e((Request::route()->getName() == 'customer.invoice' || Request::route()->getName() == 'customer.invoice.show') ? ' active' : ''); ?> ">
                         <a href="<?php echo e(route('customer.invoice')); ?>" class="dash-link ">
                             <span class="dash-micon"><i class="ti ti-file-invoice"></i></span>
-                            <span class="dash-mtext"><?php echo e(__('Invoice')); ?></span>
+                            <span class="dash-mtext"><?php echo e(__('Sale')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -176,14 +176,7 @@
                 <!--<?php endif; ?>-->
 
                 
-                <?php if(Gate::check('manage product & service')): ?>
-                    <li class="dash-item <?php echo e((Request::segment(1) == 'productservice')?'active':''); ?> ">
-                        <a href="<?php echo e(route('productservice.index')); ?>" class="dash-link ">
-                            <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span>
-                            <span class="dash-mtext"><?php echo e(__('Product & Services')); ?></span>
-                        </a>
-                    </li>
-                <?php endif; ?>
+                
 
                 
                 <?php if(Gate::check('manage product & service')): ?>
@@ -276,25 +269,25 @@
                 <?php if( Gate::check('manage invoice') ||  Gate::check('manage revenue') ||  Gate::check('manage credit note')): ?>
 
                     <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'invoice' || Request::segment(1) == 'revenue' || Request::segment(1) == 'credit-note')?' active dash-trigger':''); ?>">
-                        <a href="#!" class="dash-link "><span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext"><?php echo e(__('Income')); ?></span>
+                        <a href="#!" class="dash-link "><span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext"><?php echo e(__('Sale')); ?></span>
                             <span class="dash-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
                         <ul class="dash-submenu <?php echo e((Request::segment(1) == 'invoice' || Request::segment(1) == 'revenue' || Request::segment(1) == 'credit-note')?'show':''); ?>">
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage invoice')): ?>
                                 <li class="dash-item <?php echo e((Request::route()->getName() == 'invoice.index' || Request::route()->getName() == 'invoice.create' || Request::route()->getName() == 'invoice.edit' || Request::route()->getName() == 'invoice.show') ? ' active' : ''); ?>">
-                                    <a class="dash-link" href="<?php echo e(route('invoice.index')); ?>"><?php echo e(__('Invoice')); ?></a>
+                                    <a class="dash-link" href="<?php echo e(route('invoice.index')); ?>"><?php echo e(__('Sale')); ?></a>
                                 </li>
                             <?php endif; ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage invoice')): ?>
                                 <li class="dash-item <?php echo e((Request::route()->getName() == 'invoice.returnIndex') ? ' active' : ''); ?>">
-                                    <a class="dash-link" href="<?php echo e(route('invoice.returnIndex')); ?>"><?php echo e(__('Return Invoice')); ?></a>
+                                    <a class="dash-link" href="<?php echo e(route('invoice.returnIndex')); ?>"><?php echo e(__('Return Sale')); ?></a>
                                 </li>
                             <?php endif; ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage revenue')): ?>
                                 <li class="dash-item <?php echo e((Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : ''); ?>">
-                                    <a class="dash-link" href="<?php echo e(route('revenue.index')); ?>"><?php echo e(__('Revenue')); ?></a>
+                                    <a class="dash-link" href="<?php echo e(route('revenue.index')); ?>"><?php echo e(__('Purchase')); ?></a>
                                 </li>
                             <?php endif; ?>
                             

@@ -27,6 +27,12 @@ Route::get('/login/{lang?}', 'Auth\AuthenticatedSessionController@showLoginForm'
 
 Route::get('/password/resets/{lang?}', 'Auth\AuthenticatedSessionController@showLinkRequestForm')->name('change.langPass');
 
+Route::get('invoice/return/{id}/show', 'InvoiceController@customerInvoiceReturnShow')->name('customer.invoice.return.show')->middleware(
+    [
+        'auth:customer',
+        'XSS','revalidate',
+    ]
+);
 Route::get('invoice/{id}/show', 'InvoiceController@customerInvoiceShow')->name('customer.invoice.show')->middleware(
     [
         'auth:customer',
@@ -224,6 +230,13 @@ Route::prefix('customer')->as('customer.')->group(
         );
 
         Route::get('invoice/{id}/show', 'InvoiceController@customerInvoiceShow')->name('invoice.show')->middleware(
+            [
+                'auth:customer',
+                'XSS', 'revalidate',
+            ]
+        );
+
+        Route::get('invoice/return/{id}/show', 'InvoiceController@customerInvoiceReturnShow')->name('invoice.return.show')->middleware(
             [
                 'auth:customer',
                 'XSS', 'revalidate',
@@ -744,6 +757,7 @@ Route::group(
 
         Route::get('InvoiceReturn/create/{cid}', 'InvoiceController@returncreate')->name('InvoiceReturn.create');
         Route::post('invoice/returnstore', 'InvoiceController@returnstore')->name('invoice.returnstore');
+        Route::post('invoice/returndestory', 'InvoiceController@returndestroy')->name('invoice.returndestroy');
 
 
         Route::post('product/ajax_sort/{cat_id}','InvoiceController@ajax_sort');
@@ -857,6 +871,7 @@ Route::group(
     ],
     function () {
         Route::get('bill/customerbill', 'BillController@customerbill')->name('customer.bill');
+        // Route::get('bill/return', 'BillController@billreturn')->name('bill.return');
 
         Route::get('bill/{id}/duplicate', 'BillController@duplicate')->name('bill.duplicate');
         Route::get('bill/{id}/shipping/print', 'BillController@shippingDisplay')->name('bill.shipping.print');
@@ -873,6 +888,7 @@ Route::group(
 
         Route::resource('bill', 'BillController');
         Route::get('bill/create/{cid}', 'BillController@create')->name('bill.create');
+
         Route::get('billReturn/create/{cid}', 'BillController@returncreate')->name('bill.return.create');
         Route::post('bill/returnstore', 'BillController@returnstore')->name('bill.returnstore');
 

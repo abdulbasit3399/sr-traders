@@ -91,8 +91,8 @@
                                 <td>{{ $result->voucher_no }}</td>
                                 <td>{{ $result->date }}</td>
                                 <td>{{ $result->description}}</td>
-                                <td>{{ $result->debit }}</td>
-                                <td>{{ $result->credit }}</td>
+                                <td>{{\Auth::user()->currencySymbol()}}{{ $result->debit }}</td>
+                                <td>{{\Auth::user()->currencySymbol()}}{{ $result->credit }}</td>
                                 <td>
                                 <?php $bal = $result->debit - $result->credit;  echo $balance  += $bal; ?>
                                 </td>
@@ -106,8 +106,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><strong>{{ $sum_debit}}</strong></td>
-                            <td><strong>{{ $sum_credit}}</strong></td>
+                            <td><strong>{{\Auth::user()->currencySymbol()}}{{ $sum_debit}}</strong></td>
+                            <td><strong>{{\Auth::user()->currencySymbol()}}{{ $sum_credit}}</strong></td>
                             <td></td>
                         </tr>
                     </table>

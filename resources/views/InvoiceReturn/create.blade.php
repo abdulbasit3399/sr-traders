@@ -64,6 +64,25 @@
 
         }
 
+        $(document).on('change', '.category_id', function () {
+            var app_url = $('#app_url').val();
+            $(this).find(":selected");
+            var el = $(this);
+            var cat_id = $(this).val();
+            var url = app_url+'/product/ajax_sort/'+cat_id;
+
+            $.ajax({
+                url: url,
+                type:'POST',
+                data:'cat_id='+cat_id+'&_token={{ csrf_token() }}',
+                success:function(result){
+                    el.parent().parent().find('.item').html(result);
+                    {{--  $('#state').html(result)  --}}
+                }
+
+            });
+        });
+
         $(document).on('change', '#customer', function () {
             $('#customer_detail').removeClass('d-none');
             $('#customer_detail').addClass('d-block');
@@ -299,13 +318,15 @@
         {{--  <form action="{{ route('invoice.returnstore') }}" method="POST" class="w-100">  --}}
         <div class="col-12">
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="hidden" id="app_url" value="{{ env('APP_URL') }}" />
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group" id="customer-box">
                                 {{ Form::label('customer_id', __('Customer'),['class'=>'form-label']) }}
-                                {{ Form::select('customer_id', $customers,$customerId, array('class' => 'form-control select','id'=>'customer','data-url'=>route('invoice.customer'),'required'=>'required')) }}
+                                {{ Form::select('customer_id', $customers,$customerId, array('class' => 'form-control select','id'=>'customerr','data-url'=>route('invoice.customer'),'required'=>'required')) }}
 
                             </div>
 
@@ -343,7 +364,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('category_id', __('Category'),['class'=>'form-label']) }}
-                                        {{ Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required')) }}
+                                        {{ Form::select('category_id', $cat,null, array('class' => 'form-control select','required'=>'required')) }}
+
+                                        {{--  {{ Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required')) }}  --}}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -380,8 +403,8 @@
                 <div class="item-section py-4">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-12 d-flex align-items-center justify-content-between justify-content-md-end">
-                                <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#add-bank">
-                                    <i class="ti ti-plus"></i> {{__('Add item')}}
+                                <a data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#add-bank">
+                                    <i class="ti ti-plus"></i> {{__('Add Size')}}
                                 </a>
                         </div>
                     </div>
@@ -391,21 +414,30 @@
                         <table class="table  mb-0 table-custom-style" data-repeater-list="items" id="sortable-table">
                             <thead>
                             <tr>
-                                <th>{{__('Items')}}</th>
+                                <th>{{__('Category')}}</th>
+                                <th>{{__('Size')}}</th>
                                 <th>{{__('Quantity')}}</th>
                                 <th>{{__('Price')}} </th>
-                                <th>{{__('Tax')}} (%)</th>
-                                <th>{{__('Discount')}}</th>
+                                {{--  <th>{{__('Tax')}} (%)</th>
+                                <th>{{__('Discount')}}</th>  --}}
                                 <th class="text-end">{{__('Amount')}} <br><small class="text-danger font-weight-bold">{{__('before tax & discount')}}</small></th>
                                 <th></th>
+                                <th></th>
+
                             </tr>
                             </thead>
 
                             <tbody class="ui-sortable" data-repeater-item>
                             <tr>
+                                <td width="25%" class="form-group pt-0">
+                                    {{ Form::select('category_id', $category,null, array('class' => 'form-control select category_id','required'=>'required','data-id' => $category)) }}
+                                </td>
 
                                 <td width="25%" class="form-group pt-0">
-                                    {{ Form::select('item', $product_services,'', array('class' => 'form-control select2 item','data-url'=>route('invoice.product'),'required'=>'required')) }}
+                                    {{--  {{ Form::select('item', $product_services,'', array('class' => 'form-control select2 item','data-url'=>route('invoice.product'),'required'=>'required')) }}  --}}
+                                    <select name="item" class="form-control item" data-url={{ route('invoice.product') }}>
+                                        <option value="">Select State</option>
+                                    </select>
                                 </td>
                                 <td>
                                     <div class="form-group price-input input-group search-form">
@@ -424,7 +456,7 @@
 
 
 
-                                <td>
+                                {{--  <td>
                                     <div class="form-group">
                                         <div class="input-group colorpickerinput">
                                             <div class="taxes"></div>
@@ -433,8 +465,8 @@
                                             {{ Form::hidden('itemTaxRate','', array('class' => 'form-control itemTaxRate')) }}
                                         </div>
                                     </div>
-                                </td>
-                                <td>
+                                </td>  --}}
+                                <td class="d-none">
                                     <div class="form-group price-input input-group search-form">
                                         {{ Form::text('discount','', array('class' => 'form-control discount','required'=>'required','placeholder'=>__('Discount'))) }}
                                         <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
@@ -443,16 +475,19 @@
                                 <td class="text-end amount">0.00</td>
                                 <td>
                                     <a href="#" class="ti ti-trash text-white repeater-action-btn bg-danger ms-2 bs-pass-para" data-repeater-delete></a>
+                                    <a  data-repeater-create="" class="ti ti-plus repeater repeater-action-btn bg-success ms-2" data-toggle="modal" data-target="#add-bank">
+                                        {{--  <i class="ti ti-plus"></i>  --}}
+                                    </a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td colspan="2">
                                     <div class="form-group">
                                         {{ Form::textarea('description', null, ['class'=>'form-control description','rows'=>'2','placeholder'=>__('Description')]) }}
                                     </div>
                                 </td>
                                 <td colspan="5"></td>
-                            </tr>
+                            </tr>  --}}
                             </tbody>
                             <tfoot>
                             <tr>
@@ -464,7 +499,7 @@
                                 <td class="text-end subTotal">0.00</td>
                                 <td></td>
                             </tr>
-                            <tr>
+                            {{--  <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -481,7 +516,7 @@
                                 <td><strong>{{__('Tax')}} ({{\Auth::user()->currencySymbol()}})</strong></td>
                                 <td class="text-end totalTax">0.00</td>
                                 <td></td>
-                            </tr>
+                            </tr>  --}}
                             <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

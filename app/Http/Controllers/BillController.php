@@ -71,6 +71,40 @@ class BillController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
+
+    // public function billreturn(Request $request)
+    // {
+    //     if (\Auth::user()) {
+
+    //         $vender = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+    //         $vender->prepend('Select Vendor', '');
+
+    //         $status = Bill::$statues;
+
+    //         $query = Bill::where('created_by', '=', \Auth::user()->creatorId());
+    //         if (!empty($request->vender)) {
+    //             $query->where('vender_id', '=', $request->vender);
+    //         }
+
+    //         if (str_contains($request->bill_date, ' to ')) {
+    //             $date_range = explode(' to ', $request->bill_date);
+    //             $query->whereBetween('bill_date', $date_range);
+    //         }elseif(!empty($request->bill_date)){
+
+    //             $query->where('bill_date', $request->bill_date);
+    //         }
+
+    //         if (!empty($request->status)) {
+    //             $query->where('status', '=', $request->status);
+    //         }
+    //         $bills = $query->get();
+
+    //         return view('billReturn.index', compact('bills', 'vender', 'status'));
+    //     } else {
+    //         return redirect()->back()->with('error', __('Permission Denied.'));
+    //     }
+    // }
+
     public function customerbill(Request $request)
     {
         $customer = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');

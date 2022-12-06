@@ -87,7 +87,7 @@
                     <li class="dash-item {{ (Request::route()->getName() == 'customer.invoice' || Request::route()->getName() == 'customer.invoice.show') ? ' active' : '' }} ">
                         <a href="{{ route('customer.invoice') }}" class="dash-link ">
                             <span class="dash-micon"><i class="ti ti-file-invoice"></i></span>
-                            <span class="dash-mtext">{{__('Invoice')}}</span>
+                            <span class="dash-mtext">{{__('Sale')}}</span>
                         </a>
                     </li>
                 @endcan
@@ -176,14 +176,14 @@
                 <!--@endif-->
 
                 {{---------  Product & Service ------------}}
-                @if(Gate::check('manage product & service'))
+                {{--  @if(Gate::check('manage product & service'))
                     <li class="dash-item {{ (Request::segment(1) == 'productservice')?'active':''}} ">
                         <a href="{{ route('productservice.index') }}" class="dash-link ">
                             <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span>
                             <span class="dash-mtext">{{__('Product & Services')}}</span>
                         </a>
                     </li>
-                @endif
+                @endif  --}}
 
                 {{---------  Product & Stock ------------}}
                 @if(Gate::check('manage product & service'))
@@ -276,25 +276,25 @@
                 @if( Gate::check('manage invoice') ||  Gate::check('manage revenue') ||  Gate::check('manage credit note'))
 
                     <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'invoice' || Request::segment(1) == 'revenue' || Request::segment(1) == 'credit-note')?' active dash-trigger':''}}">
-                        <a href="#!" class="dash-link "><span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext">{{__('Income')}}</span>
+                        <a href="#!" class="dash-link "><span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext">{{__('Sale')}}</span>
                             <span class="dash-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
                         <ul class="dash-submenu {{ (Request::segment(1) == 'invoice' || Request::segment(1) == 'revenue' || Request::segment(1) == 'credit-note')?'show':''}}">
                             @can('manage invoice')
                                 <li class="dash-item {{ (Request::route()->getName() == 'invoice.index' || Request::route()->getName() == 'invoice.create' || Request::route()->getName() == 'invoice.edit' || Request::route()->getName() == 'invoice.show') ? ' active' : '' }}">
-                                    <a class="dash-link" href="{{ route('invoice.index') }}">{{__('Invoice')}}</a>
+                                    <a class="dash-link" href="{{ route('invoice.index') }}">{{__('Sale')}}</a>
                                 </li>
                             @endcan
 
                             @can('manage invoice')
                                 <li class="dash-item {{ (Request::route()->getName() == 'invoice.returnIndex') ? ' active' : '' }}">
-                                    <a class="dash-link" href="{{ route('invoice.returnIndex') }}">{{__('Return Invoice')}}</a>
+                                    <a class="dash-link" href="{{ route('invoice.returnIndex') }}">{{__('Return Sale')}}</a>
                                 </li>
                             @endcan
 
                             @can('manage revenue')
                                 <li class="dash-item {{ (Request::route()->getName() == 'revenue.index' || Request::route()->getName() == 'revenue.create' || Request::route()->getName() == 'revenue.edit') ? ' active' : '' }}">
-                                    <a class="dash-link" href="{{route('revenue.index')}}">{{ __('Revenue') }}</a>
+                                    <a class="dash-link" href="{{route('revenue.index')}}">{{ __('Purchase') }}</a>
                                 </li>
                             @endcan
                             {{--  @can('manage credit note')

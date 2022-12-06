@@ -7,11 +7,11 @@
             {{$productService->name}}
 
         </div>
-        <div class="form-group col-md-6">
+        {{--  <div class="form-group col-md-6">
             {{ Form::label('Product', __('SKU'),['class'=>'form-label']) }}<br>
             {{$productService->sku}}
 
-        </div>
+        </div>  --}}
 
         <div class="form-group quantity">
             <div class="d-flex radio-check ">

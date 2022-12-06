@@ -57,9 +57,9 @@ class ProductServiceController extends Controller
                 'name' => 'required',
                 // 'sku' => 'required',
                 'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
+                // 'unit_id' => 'required',
                 'type' => 'required',
             ];
 
@@ -74,11 +74,11 @@ class ProductServiceController extends Controller
             $productService                 = new ProductService();
             $productService->name           = $request->name;
             $productService->description    = $request->description;
-            $productService->sku            = $request->sku;
+            // $productService->sku            = $request->sku;
             $productService->sale_price     = $request->sale_price;
-            $productService->purchase_price = $request->purchase_price;
+            // $productService->purchase_price = $request->purchase_price;
             $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
-            $productService->unit_id        = $request->unit_id;
+            // $productService->unit_id        = $request->unit_id;
             $productService->quantity        = $request->quantity;
             $productService->type           = $request->type;
             $productService->category_id    = $request->category_id;
@@ -86,7 +86,7 @@ class ProductServiceController extends Controller
             $productService->save();
             CustomField::saveData($productService, $request->customField);
 
-            return redirect()->route('productservice.index')->with('success', __('Product successfully created.'));
+            return redirect()->route('productstock.index')->with('success', __('Product successfully created.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -126,9 +126,9 @@ class ProductServiceController extends Controller
                     'name' => 'required',
                     // 'sku' => 'required',
                     'sale_price' => 'required|numeric',
-                    'purchase_price' => 'required|numeric',
+                    // 'purchase_price' => 'required|numeric',
                     'category_id' => 'required',
-                    'unit_id' => 'required',
+                    // 'unit_id' => 'required',
                     'type' => 'required',
                 ];
 
@@ -142,11 +142,11 @@ class ProductServiceController extends Controller
 
                 $productService->name           = $request->name;
                 $productService->description    = $request->description;
-                $productService->sku            = $request->sku;
+                // $productService->sku            = $request->sku;
                 $productService->sale_price     = $request->sale_price;
-                $productService->purchase_price = $request->purchase_price;
+                // $productService->purchase_price = $request->purchase_price;
                 $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
-                $productService->unit_id        = $request->unit_id;
+                // $productService->unit_id        = $request->unit_id;
                 $productService->quantity        = $request->quantity;
                 $productService->type           = $request->type;
                 $productService->category_id    = $request->category_id;
@@ -154,7 +154,7 @@ class ProductServiceController extends Controller
                 $productService->save();
                 CustomField::saveData($productService, $request->customField);
 
-                return redirect()->route('productservice.index')->with('success', __('Product successfully updated.'));
+                return redirect()->route('productstock.index')->with('success', __('Product successfully updated.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }

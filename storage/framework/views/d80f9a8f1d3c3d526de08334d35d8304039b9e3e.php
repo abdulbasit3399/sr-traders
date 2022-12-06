@@ -90,8 +90,8 @@
                                 <td><?php echo e($result->voucher_no); ?></td>
                                 <td><?php echo e($result->date); ?></td>
                                 <td><?php echo e($result->description); ?></td>
-                                <td><?php echo e($result->debit); ?></td>
-                                <td><?php echo e($result->credit); ?></td>
+                                <td><?php echo e(\Auth::user()->currencySymbol()); ?><?php echo e($result->debit); ?></td>
+                                <td><?php echo e(\Auth::user()->currencySymbol()); ?><?php echo e($result->credit); ?></td>
                                 <td>
                                 <?php $bal = $result->debit - $result->credit;  echo $balance  += $bal; ?>
                                 </td>
@@ -105,8 +105,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><strong><?php echo e($sum_debit); ?></strong></td>
-                            <td><strong><?php echo e($sum_credit); ?></strong></td>
+                            <td><strong><?php echo e(\Auth::user()->currencySymbol()); ?><?php echo e($sum_debit); ?></strong></td>
+                            <td><strong><?php echo e(\Auth::user()->currencySymbol()); ?><?php echo e($sum_credit); ?></strong></td>
                             <td></td>
                         </tr>
                     </table>

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('name', __('Name'),['class'=>'form-label']) }}<span class="text-danger">*</span>
+                {{ Form::label('name', __('Size'),['class'=>'form-label']) }}<span class="text-danger">*</span>
                 <div class="form-icon-user">
                     {{ Form::text('name',null, array('class' => 'form-control','required'=>'required')) }}
                 </div>
@@ -29,14 +29,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        {{--  <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('purchase_price', __('Purchase Price'),['class'=>'form-label']) }}<span class="text-danger">*</span>
                 <div class="form-icon-user">
                     {{ Form::number('purchase_price', null, array('class' => 'form-control','required'=>'required','step'=>'0.01')) }}
                 </div>
             </div>
-        </div>
+        </div>  --}}
         {{--  <div class="form-group  col-md-6">
             {{ Form::label('tax_id', __('Tax'),['class'=>'form-label']) }}
             {{ Form::select('tax_id[]', $tax,null, array('class' => 'form-control select2','id'=>'choices-multiple1','multiple'=>'')) }}
@@ -45,10 +45,10 @@
             {{ Form::label('category_id', __('Category'),['class'=>'form-label']) }}<span class="text-danger">*</span>
             {{ Form::select('category_id', $category,null, array('class' => 'form-control select','required'=>'required')) }}
         </div>
-        <div class="form-group  col-md-6">
+        {{--  <div class="form-group  col-md-6">
             {{ Form::label('unit_id', __('Unit'),['class'=>'form-label']) }}<span class="text-danger">*</span>
             {{ Form::select('unit_id', $unit,null, array('class' => 'form-control select','required'=>'required')) }}
-        </div>
+        </div>  --}}
         <div class="form-group col-md-6">
             {{ Form::label('quantity', __('Quantity'),['class'=>'form-label']) }}<span class="text-danger">*</span>
             {{ Form::text('quantity',null, array('class' => 'form-control','required'=>'required')) }}
